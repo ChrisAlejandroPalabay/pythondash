@@ -21,17 +21,17 @@ dfRecovered = pd.read_csv(recovery)
 def getDifference(df) :
     
     index1 = 1
-    index2 = 30
-    df = df.loc[dfConfirmed["Country/Region"] == "Philippines"]
+    index2 = 20
+    df = df.loc[df["Country/Region"] == "Philippines"]
     n2 = int(df.iloc[:,-index1])
     n1 = int(df.iloc[:,-index2])
     ans = str(float("{:.2f}".format(percent(n1,n2)))) 
 
     if "-" in ans:
-        res = "Decreased by {}%".format(ans)
+        res = "Decreased by {} %, from the data gathered 30 days ago".format(ans)
         return res
     else:
-        res = "Increased by {}%".format(ans)
+        res = "Increased by {}%, from the data gathered 30 days ago".format(ans)
         return res
 
 
@@ -42,29 +42,77 @@ def percent(a, b) :
     return result 
 
 app = dash.Dash()
-app.layout = html.Div([
+app.layout = html.Div(children=[
 
     html.Div(children=[
         html.Div([
-                html.H2("Diff Confirmed Cases"),
+            html.Div([
+                html.H2("COVID-19 Cases"),
                 html.P(getDifference(dfConfirmed))
-        ])
+            ])
+        ],style={
+                'text-align': 'center',
+                'background-color': '#7E3EEF',
+                'font-family': 'Verdana',
+                'color': 'white'
+        })
     ],style={
-        'border-style': 'solid'
-     }
+        'width': '340px',
+        'height':  '120px',
+        'border-style': 'solid',
+        'background-color': '#7E3EEF',
+        'display':'inline-block',
+        'margin-right': '17px',
+        'margin-left': '17px'
+    }
     ),
-
     html.Div(children=[
         html.Div([
-                html.H2("Diff deaths"),
+            html.Div([
+                html.H2("COVID-19 Deaths"),
                 html.P(getDifference(dfDeaths))
-        ])
+            ])
+        ],style={
+                'text-align': 'center',
+                'background-color': '#7E3EEF',
+                'font-family': 'Verdana',
+                'color': 'white'
+        })
     ],style={
-        'border-style': 'solid'
-     }
-    )
-        
-])
+        'width': '340px',
+        'height':  '120px',
+        'border-style': 'solid',
+        'background-color': '#7E3EEF',
+        'display':'inline-block',
+        'margin-right': '17px',
+        'margin-left': '17px'
+    }
+    ),
+    html.Div(children=[
+        html.Div([
+            html.Div([
+                html.H2("COVID-19 Recoveries"),
+                html.P(getDifference(dfRecovered))
+            ])
+        ],style={
+                'text-align': 'center',
+                'background-color': '#7E3EEF',
+                'font-family': 'Verdana',
+                'color': 'white'
+        })
+    ],style={
+        'width': '340px',
+        'height':  '120px',
+        'border-style': 'solid',
+        'background-color': '#7E3EEF',
+        'display':'inline-block',
+        'margin-right': '17px',
+        'margin-left': '17px'
+    }
+    )    
+],style={
+    
+})
 
 if __name__ == "__main__" : 
     app.run_server(debug=True)
