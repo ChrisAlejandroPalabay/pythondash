@@ -34,12 +34,28 @@ def getDifference(df) :
         res = "Increased by {}%, from the data gathered 30 days ago".format(ans)
         return res
 
+def newRecord(df):
+    df = df.loc[df["Country/Region"] == "Philippines"]
+    n2 = int(df.iloc[:,-1])
+    n1 = int(df.iloc[:,-2])
+    ans = str(n2 - n1)
+    
+    if "-" in ans:
+        res = "None Recorded"
+        return res
+    else:
+        return ans
+    
 
 def percent(a, b) : 
   
     result = float(((b - a) * 100) / a) 
   
     return result 
+
+def getdate(df):
+    d = str(df.columns[-1])
+    return d
 
 app = dash.Dash()
 app.layout = html.Div(children=[
@@ -48,6 +64,8 @@ app.layout = html.Div(children=[
         html.Div([
             html.Div([
                 html.H2("COVID-19 Cases"),
+                html.P("As of ",getdate(dfConfirmed)),
+                html.P(newRecord(dfConfirmed)),
                 html.P(getDifference(dfConfirmed))
             ])
         ],style={
@@ -70,6 +88,8 @@ app.layout = html.Div(children=[
         html.Div([
             html.Div([
                 html.H2("COVID-19 Deaths"),
+                html.P("As of ",getdate(dfDeaths)),
+                html.P(newRecord(dfDeaths)),
                 html.P(getDifference(dfDeaths))
             ])
         ],style={
@@ -92,6 +112,8 @@ app.layout = html.Div(children=[
         html.Div([
             html.Div([
                 html.H2("COVID-19 Recoveries"),
+                html.P("As of ",getdate(dfRecovered)),
+                html.P(newRecord(dfRecovered)),
                 html.P(getDifference(dfRecovered))
             ])
         ],style={

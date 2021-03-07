@@ -1,0 +1,12 @@
+.con1 {
+    background-color: #7E3EEF;
+    font-family : Verdana;
+    color: white;
+  }
+.con2 {
+    width: 340px;
+    height:  120px;
+    border-style: solid;
+    background-color: #7E3EEF;
+    display:inline-block;
+}
