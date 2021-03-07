@@ -55,19 +55,31 @@ def percent(a, b) :
 
 def getdate(df):
     d = str(df.columns[-1])
-    return d
+    res = "As of {}".format(d)
+    return res
 
 app = dash.Dash()
 app.layout = html.Div(children=[
 
     html.Div(children=[
         html.Div([
-            html.Div([
-                html.H2("COVID-19 Cases"),
-                html.P("As of ",getdate(dfConfirmed)),
-                html.P(newRecord(dfConfirmed)),
+            html.Div(children=[
+                html.H2("New COVID-19 Cases"),
+                    html.Div(children=[
+                        html.P(newRecord(dfConfirmed)),
+                    ],style={
+                            'font-size': '50px',
+                            'color': 'orange',
+                            'line-height': '0px'
+                    }),
                 html.P(getDifference(dfConfirmed))
-            ])
+            ]),
+            html.Footer(getdate(dfConfirmed)
+            ,style={
+                'font-size': '10px',
+                'background-color': 'black'
+            }
+            )
         ],style={
                 'text-align': 'center',
                 'background-color': '#7E3EEF',
@@ -75,8 +87,8 @@ app.layout = html.Div(children=[
                 'color': 'white'
         })
     ],style={
-        'width': '340px',
-        'height':  '120px',
+        'width': 'fit-content',
+        'height':  'fit-content',
         'border-style': 'solid',
         'background-color': '#7E3EEF',
         'display':'inline-block',
@@ -84,14 +96,25 @@ app.layout = html.Div(children=[
         'margin-left': '17px'
     }
     ),
-    html.Div(children=[
+   html.Div(children=[
         html.Div([
-            html.Div([
-                html.H2("COVID-19 Deaths"),
-                html.P("As of ",getdate(dfDeaths)),
-                html.P(newRecord(dfDeaths)),
+            html.Div(children=[
+                html.H2("New COVID-19 Deaths"),
+                    html.Div(children=[
+                        html.P(newRecord(dfDeaths)),
+                    ],style={
+                            'font-size': '50px',
+                            'color': 'orange',
+                            'line-height': '0px'
+                    }),
                 html.P(getDifference(dfDeaths))
-            ])
+            ]),
+            html.Footer(getdate(dfDeaths)
+            ,style={
+                'font-size': '10px',
+                'background-color': 'black'
+            }
+            )
         ],style={
                 'text-align': 'center',
                 'background-color': '#7E3EEF',
@@ -99,8 +122,8 @@ app.layout = html.Div(children=[
                 'color': 'white'
         })
     ],style={
-        'width': '340px',
-        'height':  '120px',
+        'width': 'fit-content',
+        'height':  'fit-content',
         'border-style': 'solid',
         'background-color': '#7E3EEF',
         'display':'inline-block',
@@ -108,14 +131,25 @@ app.layout = html.Div(children=[
         'margin-left': '17px'
     }
     ),
-    html.Div(children=[
+   html.Div(children=[
         html.Div([
-            html.Div([
-                html.H2("COVID-19 Recoveries"),
-                html.P("As of ",getdate(dfRecovered)),
-                html.P(newRecord(dfRecovered)),
+            html.Div(children=[
+                html.H2("New COVID-19 Recoveries"),
+                    html.Div(children=[
+                        html.P(newRecord(dfRecovered)),
+                    ],style={
+                            'font-size': '50px',
+                            'color': 'orange',
+                            'line-height': '0px'
+                    }),
                 html.P(getDifference(dfRecovered))
-            ])
+            ]),
+            html.Footer(getdate(dfRecovered)
+            ,style={
+                'font-size': '10px',
+                'background-color': 'black'
+            }
+            )
         ],style={
                 'text-align': 'center',
                 'background-color': '#7E3EEF',
@@ -123,16 +157,15 @@ app.layout = html.Div(children=[
                 'color': 'white'
         })
     ],style={
-        'width': '340px',
-        'height':  '120px',
+        'width': 'fit-content',
+        'height':  'fit-content',
         'border-style': 'solid',
         'background-color': '#7E3EEF',
         'display':'inline-block',
         'margin-right': '17px',
         'margin-left': '17px'
     }
-    )    
-],style={
+    )],style={
     
 })
 
