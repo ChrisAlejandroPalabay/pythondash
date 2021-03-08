@@ -33,4 +33,14 @@
   justify-content: center;
   gap: 150px;
 }
+
+.graphdiv{
+  justify-content: center;
+}
+.foot{
+  background-color: black;
+  color :white;
+  font-size: 15;
+  text-align: center;
+}
   

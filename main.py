@@ -16,6 +16,9 @@ data_source = {"confirmed_cases": "https://raw.githubusercontent.com/CSSEGISandD
 "deaths": "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv",
 "recovered": "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"}
 
+confirmed = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+deaths = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+recovery = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
 
 def getContent(url):
   request = requests.get(url)
@@ -41,8 +44,12 @@ def getMarks(date):
 
     return result
 
-def getScatterFigure(x, y):
-    return go.Figure([go.Scatter(x=x, y=y)])
+def getScatterFigure(x, y,t):
+    fig = go.Figure([go.Scatter(x=x, y=y)])
+    fig.update_layout(title=t)
+    fig.update_layout(title_pad_l=288)
+    fig.update_layout(title_font_size=18)
+    return fig
 
 def getCovidData(classification):
     data = getContent(data_source[classification])
@@ -57,10 +64,6 @@ def getCovidData(classification):
     return df
 
 ############AC CODE
-confirmed = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
-deaths = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
-recovery = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
-
 dfConfirmed = pd.read_csv(confirmed)
 dfDeaths = pd.read_csv(deaths)
 dfRecovered = pd.read_csv(recovery)
@@ -215,7 +218,6 @@ app.layout = html.Div(children=[
                             'background-color': 'black'
                         }
                     ),
-
                     html.Div(
                         id='deaths_container',
                         style={
@@ -243,6 +245,8 @@ app.layout = html.Div(children=[
                 value = [unixTimeMillis(dates.min()),
                          unixTimeMillis(dates.max())],
                 marks=getMarks(dates)
+    ),
+    html.Footer(className='foot',children=[getdate(dfConfirmed)]
     ),
     html.Div(id='placeholder')
 ]
@@ -275,7 +279,7 @@ def update_fig(value):
 
     # Confirmed cases scatter figure
     df = confirmed_cases[(confirmed_cases['Date'] >= min) & (confirmed_cases['Date'] <= max)]
-    fig = getScatterFigure(x=df['Date'], y=df['Number of Case'])
+    fig = getScatterFigure(x=df['Date'], y=df['Number of Case'],t="New Cases")
     confirmed_graph = dcc.Graph(
                         id='graph',
                         figure=fig,
@@ -284,19 +288,12 @@ def update_fig(value):
 
     # Deaths scatter figure
     df = deaths[(deaths['Date'] >= min) & (deaths['Date'] <= max)]
-    fig = getScatterFigure(x=df['Date'], y=df['Number of Case'])
+    fig = getScatterFigure(x=df['Date'], y=df['Number of Case'],t="Deaths")
     deaths_graph = dcc.Graph(
                         id='graph',
                         figure=fig
                       )
 
-    # Recovered figure
-    df = recovered[(recovered['Date'] >= min) & (recovered['Date'] <= max)]
-    fig = getScatterFigure(x=df['Date'], y=df['Number of Case'])
-    recovered_graph = dcc.Graph(
-                        id='graph',
-                        figure=fig
-                      )
 
     return confirmed_graph, deaths_graph, total_confirmed, total_deaths, total_recovered
 
